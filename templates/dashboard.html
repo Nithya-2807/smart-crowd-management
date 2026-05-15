@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Crowd Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+        }
+
+        /* CARDS */
+        .cards {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            width: 180px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            font-size: 32px;
+        }
+
+        .green { color: #00ff9c; }
+        .yellow { color: #ffd700; }
+        .red { color: #ff4c4c; }
+
+        /* BUTTONS */
+        .top-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #00c6ff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #0072ff;
+        }
+
+        /* ALERT */
+        .alert-box {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .alert {
+            color: #ff4c4c;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* GRAPH */
+        canvas {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.05);
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #555;
+            text-align: center;
+        }
+
+        th {
+            background: rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🚀 Smart Crowd Monitoring Dashboard</h1>
+
+<div class="top-buttons">
+    <a href="/webcam"><button>Live Monitoring</button></a>
+    <a href="/"><button>Logout</button></a>
+</div>
+
+<div class="container">
+
+    <!-- CARDS -->
+    <div class="cards">
+        <div class="card">
+            <h2>{{ data[0][2] }}</h2>
+            <p>People</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ data[0][3] }}</h2>
+            <p>Entered</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ data[0][4] }}</h2>
+            <p>Exited</p>
+        </div>
+
+        <div class="card">
+            <h2 class="
+                {% if data[0][5]=='Normal' %}green
+                {% elif data[0][5]=='Moderate' %}yellow
+                {% else %}red{% endif %}
+            ">
+                {{ data[0][5] }}
+            </h2>
+            <p>Status</p>
+        </div>
+    </div>
+
+    <!-- ALERTS -->
+    <div class="alert-box">
+        <h2>🚨 Alerts</h2>
+        {% for a in alerts %}
+            <p class="alert">{{ a[1] }} - {{ a[2] }}</p>
+        {% endfor %}
+    </div>
+
+    <!-- GRAPH -->
+    <h2 style="text-align:center;">📊 Crowd Trend</h2>
+    <canvas id="chart"></canvas>
+
+    <script>
+        const labels = [{% for row in data %}"{{ row[1] }}",{% endfor %}];
+        const values = [{% for row in data %}{{ row[2] }},{% endfor %}];
+
+        new Chart(document.getElementById("chart"), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "People Count",
+                    data: values,
+                    borderColor: "#00c6ff",
+                    fill: false,
+                    tension: 0.3
+                }]
+            }
+        });
+    </script>
+
+    <!-- TABLE -->
+    <h2 style="text-align:center;">📋 History</h2>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>People</th>
+            <th>Entered</th>
+            <th>Exited</th>
+            <th>Status</th>
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+</body>
+</html>

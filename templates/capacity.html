@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="center-page">
+
+<div class="navbar">
+    <h2>Set Capacity</h2>
+    <a href="/select">Back</a>
+</div>
+
+<h2>Set Maximum Capacity</h2>
+
+<form method="POST" class="simple-box">
+    <input type="number" name="capacity" placeholder="Enter capacity" required>
+    <button type="submit">Set</button>
+</form>
+
+</body>
+</html>
