@@ -21,7 +21,7 @@ PASSWORD = "1234"
 #     password="root123",
 #     database="crowd_management"
 # )
-cursor = db.cursor()
+#cursor = db.cursor()
 
 # ---------------- GLOBAL VARIABLES ----------------
 line_y = 250
