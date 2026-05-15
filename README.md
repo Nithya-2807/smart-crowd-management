@@ -1,7 +1,7 @@
 # Smart Crowd Management System
 
 ## Live Demo
-
+[Open Live Website](https://smart-crowd-management.onrender.com)
 https://smart-crowd-management.onrender.com
 
 ---
