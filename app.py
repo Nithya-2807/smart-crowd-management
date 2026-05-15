@@ -15,12 +15,12 @@ USERNAME = "admin"
 PASSWORD = "1234"
 
 # ---------------- DATABASE ----------------
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="nithya",
-    database="crowd_db"
-)
+# db = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     password="root123",
+#     database="crowd_management"
+# )
 cursor = db.cursor()
 
 # ---------------- GLOBAL VARIABLES ----------------
